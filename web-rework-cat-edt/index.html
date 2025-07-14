@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Micah Li</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    body {
+      background-color: #ffffff;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      width: 700px;
+      height: 450px;
+      padding: 40px;
+      position: relative;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .nav {
+      display: flex;
+      gap: 24px;
+      font-size: 2rem;
+      letter-spacing: 0.4rem;
+      margin-bottom: 32px;
+    }
+    .nav a {
+      text-decoration: none;
+      color: #000;
+    }
+    .name {
+      font-family: 'Press Start 2p', monospace;
+      font-size: 6rem;
+      margin-bottom: 24px;
+    }
+    .contact {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #000000;
+    }
+    .cat {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 25rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="nav" style = "z-index:2">
+      <a href="about.html">about //</a>
+      <a href="publications.html">publications+misc. math //</a>
+      <a href="#">not‑math //</a>
+      <a href="files/Li_Micah_CV.pdf">CV</a>
+    </nav>
+
+    <h1 class = "name">micah&nbsp;&nbsp;li.</h1>
+
+    <div class="contact">
+      phd math @ university of minnesota – twin cities<br>
+      li000043 "at" umn "dot" edu<br>
+      office to be determined!
+    </div>
+
+    <img src="assets/cat-1.png"
+         alt="Cat illustration"
+         class="cat" style="z-index:0"/>
+  </div>
+</body>
+</html>

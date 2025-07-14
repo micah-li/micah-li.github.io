@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About – Micah Li</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+     .header{
+        font-family: 'Press Start 2p', monospace;
+        font-size: 6rem;
+     }
+     .cat{
+        position: sticky;
+        top: 0;
+        bottom:0; 
+        left:0;
+        width: 8.5rem;
+     }
+    </style>
+</head>
+<body class="bg-white text-black">
+
+  <div class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <div class="w-1/5 flex flex-col items-center pt-12 space-y-10">
+      <!-- Circle -->
+      <img src="assets/profile-picture.jpg"
+     alt="Profile photo"
+     class="w-40 h-40 rounded-full object-cover shadow-md" />
+
+      <!-- Nav Links -->
+      <nav class="text-left space-y-2 text-lg">
+        <div><a href = "index.html">home //</a></div>
+        <div><a href="about.html">about //</a></div>
+        <div><a href="publications.html">publications+misc. math //</a></div>
+        <div><a href="#">not‑math //</a></div>
+        <div><a href="files/Li_Micah_CV.pdf">vitae</a></div>
+      </nav>
+
+      <!-- Cat Image -->
+      <img src="assets/cat-2.png"
+           alt="Cat"
+           class="cat" />
+    </div>
+
+    <!-- Main Content -->
+    <div class="w-4/5 px-16 py-12">
+      <!-- Title -->
+      <h1 class="header">about.</h1>
+
+      <!-- Paragraphs -->
+      <p class="text-base mb-6 text-justify">
+        Hi! My name is Micah and I am a first year PhD student in mathematics at the University of Minnesota - Twin Cities. I got my bachelor's in mathematics at UCSD where I worked with Professor Albert Chern on problems in computer graphics and non-Euclidean geometry. I also did a directed reading with Professor Lei Ni on Lie groups. I am primarily interested in problems concerning algebraic geometry and Lie groups. 
+      </p>
+
+      <p class="text-base mb-8 text-justify">
+        In my free time I like to go biking(if the weather permits!), reading, watching movies, weight-lifting, knitting, crocheting, drawing, and writing. If you want to see my work not related to math go <a href=#>here!</a> Here are some of my favorite pieces of media:
+      </p>
+
+      <!-- Book Covers -->
+      <div class="flex space-x-6">
+        <img src="assets/a-little-life.jpg"
+             alt="A Little Life" class="w-40 h-auto shadow-md" />
+        <img src="assets/beloved.jpg"
+             alt="Beloved" class="w-40 h-auto shadow-md" />
+        <img src="assets/stranger.jpg"
+             alt="The Stranger" class="w-40 h-auto shadow-md" />
+        <img src="assets/narcos.jpg"
+             alt="The Stranger" class="w-40 h-auto shadow-md" />
+        <img src="assets/dune.jpg"
+             alt="The Stranger" class="w-40 h-auto shadow-md" />
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

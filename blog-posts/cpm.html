@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Beauty of Prime Numbers - Alex Chen</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .article-header {
+            padding: 3rem 0 2rem;
+        }
+        
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .article-tag {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+        }
+        
+        .article-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: bold;
+            color: #111827;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .article-content {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            line-height: 1.7;
+        }
+        
+        .article-content h1 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #111827;
+            margin: 2rem 0 1.5rem;
+        }
+        
+        .article-content h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111827;
+            margin: 2rem 0 1rem;
+        }
+        
+        .article-content p {
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+        
+        .article-content strong {
+            font-weight: 600;
+            color: #111827;
+        }
+        
+        .article-content ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        .math-formula {
+            text-align: center;
+            margin: 2rem 0;
+            font-size: 1.5rem;
+            font-family: 'Times New Roman', serif;
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        
+        .article-footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .article-footer-text h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+        
+        .article-footer-text p {
+            color: #6b7280;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b7280;
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-calculator nav-icon"></i>
+                <span class="nav-title">Alex Chen</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">About</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="portfolio.html" class="nav-link">Portfolio</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <article class="container">
+        <div style="padding: 3rem 0;">
+            <a href="blog.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Blog
+            </a>
+
+            <div class="article-header">
+                <div class="article-tags">
+                    <span class="article-tag">Number Theory</span>
+                    <span class="article-tag">Primes</span>
+                    <span class="article-tag">History</span>
+                </div>
+
+                <h1 class="article-title">The Beauty of Prime Numbers</h1>
+
+                <div class="article-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <span>2024-01-15</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>8 min read</span>
+                    </div>
+                </div>
+            </div>
+            <div class="article-content">
+               <h2 id="contents">Contents</h2>
+                    <ol>
+                    <li><a href="#introduction">Intro</a></li>
+                    <li><a href="#the-method">The Method</a></li>
+                    <li><a href="#the-drawbacks">The Drawbacks</a></li>
+                    </ol>
+                    <h2 id="introduction">Introduction</h2>
+                    <p>The closest point method (CPM) is a method that is used and developed by the applied math community in solving PDEs on surfaces and this is just my notes on the method to help me understand. These notes will be based on the paper written by Steven J. Ruuth and Barry Merriman. The original paper can be found <a href="https://steveruuth.org/wp-content/uploads/2020/10/cpm08.pdf">here</a></p>
+                    <p>The following is the paper&#39;s abstract</p>
+                    <blockquote>
+                    <p>It is increasingly common to encounter partial differential equations (PDEs) posed on surfaces, and standard numerical methods are not available for such novel situations. Here we develop a simple method for the numerical solution of such equations which embeds the problem within a Cartesian analog of the original equation, posed on the entire space containing the surface. This allows the immediate use of familiar finite difference methods for the discretization and numerical solution. The particular simplicity of our approach results from using the
+                    closest point operator to extend the problem from the surface to the surrounding space. The resulting method is quite general in scope, and in particular allows for boundary conditions at surface boundaries, and immediately generalizes beyond surfaces embedded in R3, to objects of any dimension embedded in any Rn. The procedure is also computationally efficient, since the computation is naturally only carried out on a grid near the surface of interest. We present the motivation and details of the method, illustrate its numerical convergence properties for
+                    model problems, and also illustrate its application to several complex model equations.</p>
+                    </blockquote>
+                    <p>The CPM sets out to be a method that overcomes a lot of the limitations of previous methods; those of which include parametrization, the use of level-set methods, or to solve the PDE directly on a triangulation of the surface(meshes). The main difference between the CPM and the other methods is that it abandons the level-set method that was used previously and instead uses a closest point representation of the surface. </p>
+                    <h2 id="the-method">The Method</h2>
+                    <p>There is a need to &quot;rapidly and accurately extend functions defined on surfaces&quot; to the space around the surface. The extension will be chosen such that the embedding &quot;PDE&quot; is a &quot;natural extension of the original&quot;. This means that the embedding PDE will be formed by &quot;replacing intrinsic surface gradients with standard gradients on R3&quot;. This extension will not be accurate for very long times but if the extension is chosen correctly the &quot;evolution of the embedding PDE will be accurate initially&quot;. The requirement of time leads to a specific class of extension operators, specifically the extension operators that extend &quot;function values to be constant along directions normal to the surface&quot;. </p>
+                    <p>On such &quot;constant normal extension&quot; is the closest point representation. In short, the closest point representation function -- cp(x) -- is a function that takes a point (x) in R3 and returns the closest point to x on the surface S. With the closest point representation function we can define the extension operator to be </p>
+                    <p>E(us)(x) = u(cp(x))</p>
+                    <p>for any u defined on S. This extension operator is rather simple because the funcion cp is simply a map from R3 to R3 and returns points on S. </p>
+                    <p>The advantages of the closest point function are the following: </p>
+                    <ul>
+                    <li>the ability to work with open and closed surfaces</li>
+                    <li>flexibility to work with surfaces with no orientation(i.e. Klein bottle)</li>
+                    <li>works on curves/filaments -- objects of co-dimension two or higher </li>
+                    </ul>
+                    <p>The closest point function can be found in a number of ways: </p>
+                    <ol>
+                    <li>for surfaces like the sphere/torus it can be found analytically </li>
+                    <li>parametrized surfaces it can be found by using standard numberical optimization techniques</li>
+                    <li>for triangulated surfaces it can be found directly or through the use of algorithms such as the &quot;tree-based algorithms of Strain&quot; or the &quot;public domain closest point transfom of Mauch&quot;</li>
+                    </ol>
+                    <p>The actual method itself is implemented in the following steps: </p>
+                    <ol>
+                    <li>Construct a closest point representation of the surface</li>
+                    <li>Choose a computation domain</li>
+                    <li>Find the embedding of the surface PDE by replacing surface gradients with standard gradients in R3. This leads to a &quot;simpler PDE than previous embedding methods&quot; because of no projection matrix</li>
+                    <li>initialize the solution variable by extending the &quot;intial surface data onto the computational domain using the closest point function&quot;</li>
+                    </ol>
+                    <p>The following steps are alternated after the first four steps are finished: </p>
+                    <ol>
+                    <li>Extend the solution off the surface to the computationl domain using the closest point function </li>
+                    <li>compute the solution to the embedding PDE using standard finite differences on a Cartesian mesh in the computational domain for one time step </li>
+                    </ol>
+                    <h2 id="the-drawbacks">The Drawbacks</h2>
+                    <p>The CPM is an astoudingly novel method for solving PDEs on surfaces and thus does not work well with many differential operators. The way that the closest point representation is obtained means that a lot of the fundamental calculus identities are lost. </p>
+                    <p>This can be seen in the papers that the authors have come out with involving the CPM. A lot of these papers detail how to solve specific PDE problems, rather than showing the CPM as a catch-all method. </p>
+
+            </div>
+
+            <div class="article-footer">
+                <div class="article-footer-text">
+                    <h3>Enjoyed this post?</h3>
+                    <p>Share your thoughts or questions with me!</p>
+                </div>
+                <a href="mailto:alex@example.com" class="btn btn-primary">Get in Touch</a>
+            </div>
+        </div>
+    </article>
+
+    <script src="script.js"></script>
+</body>
+</html>

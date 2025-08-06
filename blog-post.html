@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>micah li</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
+    <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.0.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <style>
+        .article-header {
+            padding: 3rem 0 2rem;
+        }
+        
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .article-tag {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+        }
+        
+        .article-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: bold;
+            color: #111827;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .article-content {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            line-height: 1.7;
+        }
+        
+        /* Markdown Content Styles */
+        .markdown-content h1 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #111827;
+            margin: 2rem 0 1.5rem;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+        
+        .markdown-content h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111827;
+            margin: 2rem 0 1rem;
+        }
+        
+        .markdown-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin: 1.5rem 0 0.75rem;
+        }
+        
+        .markdown-content p {
+            color: #374151;
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .markdown-content strong {
+            font-weight: 600;
+            color: #111827;
+        }
+        
+        .markdown-content em {
+            font-style: italic;
+            color: #6b7280;
+        }
+        
+        .markdown-content ul, .markdown-content ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .markdown-content li {
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        .markdown-content blockquote {
+            border-left: 4px solid #2563eb;
+            background: #f8fafc;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #475569;
+        }
+        
+        .markdown-content code {
+            background: #f1f5f9;
+            color: #e11d48;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875em;
+        }
+        
+        .markdown-content pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+        
+        .markdown-content pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+        
+        .markdown-content .math-formula {
+            text-align: center;
+            margin: 2rem 0;
+            font-size: 1.5rem;
+            font-family: 'Times New Roman', serif;
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .markdown-content hr {
+            margin: 2rem 0;
+            border: none;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .markdown-content a {
+            color: #2563eb;
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+        
+        .markdown-content a:hover {
+            color: #1d4ed8;
+        }
+        
+        .markdown-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .markdown-content th,
+        .markdown-content td {
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        .markdown-content th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #111827;
+        }
+        
+        .article-footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .article-footer-text h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+        
+        .article-footer-text p {
+            color: #6b7280;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b7280;
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #2563eb;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: #dc2626;
+            background: #fef2f2;
+            border-radius: 0.5rem;
+            border: 1px solid #fecaca;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fa fa-cube" aria-hidden="true"></i>
+                <a href = index.html style = "text-decoration: none"><span class="nav-title">micah li</span></a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+    <a href="index.html" class="nav-link">about//</a>
+    <a href="blog.html" class="nav-link active">blog//</a>
+</div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+    <article class="container">
+        <div style="padding: 3rem 0;">
+            <a href="blog.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Blog
+            </a>
+
+            <div id="blog-post-container">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Loading blog post...
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Blog post data with markdown content
+        const blogPosts = {
+            'cpm': {
+                title: "The Closest Point Method",
+                date: "2023-01-15",
+                readTime: "8 min read",
+                tags: ["graphics"],
+                content: `# CPM
+
+## Introduction 
+
+The closest point method (CPM) is a method that is used and developed by the applied math community in solving PDEs on surfaces and this is just my notes on the method to help me understand. These notes will be based on the paper written by Steven J. Ruuth and Barry Merriman. The original paper can be found [here](https://steveruuth.org/wp-content/uploads/2020/10/cpm08.pdf)
+
+The following is the paper's abstract
+> It is increasingly common to encounter partial differential equations (PDEs) posed on surfaces, and standard numerical methods are not available for such novel situations. Here we develop a simple method for the numerical solution of such equations which embeds the problem within a Cartesian analog of the original equation, posed on the entire space containing the surface. This allows the immediate use of familiar finite difference methods for the discretization and numerical solution. The particular simplicity of our approach results from using theclosest point operator to extend the problem from the surface to the surrounding space. The resulting method is quite general in scope, and in particular allows for boundary conditions at surface boundaries, and immediately generalizes beyond surfaces embedded in R3, to objects of any dimension embedded in any Rn. The procedure is also computationally efficient, since the computation is naturally only carried out on a grid near the surface of interest. We present the motivation and details of the method, illustrate its numerical convergence properties for model problems, and also illustrate its application to several complex model equations.
+
+The CPM sets out to be a method that overcomes a lot of the limitations of previous methods; those of which include parametrization, the use of level-set methods, or to solve the PDE directly on a triangulation of the surface(meshes). The main difference between the CPM and the other methods is that it abandons the level-set method that was used previously and instead uses a closest point representation of the surface. 
+
+## The Method
+
+There is a need to "rapidly and accurately extend functions defined on surfaces" to the space around the surface. The extension will be chosen such that the embedding "PDE" is a "natural extension of the original". This means that the embedding PDE will be formed by "replacing intrinsic surface gradients with standard gradients on R3". This extension will not be accurate for very long times but if the extension is chosen correctly the "evolution of the embedding PDE will be accurate initially". The requirement of time leads to a specific class of extension operators, specifically the extension operators that extend "function values to be constant along directions normal to the surface". 
+
+On such "constant normal extension" is the closest point representation. In short, the closest point representation function -- $cp(x)$ -- is a function that takes a point $(x)$ in $R^3$ and returns the closest point to x on the surface S. With the closest point representation function we can define the extension operator to be 
+
+$E(us)(x) = u(cp(x))$
+
+for any u defined on S. This extension operator is rather simple because the funcion cp is simply a map from R3 to R3 and returns points on S. 
+
+The advantages of the closest point function are the following: 
+* the ability to work with open and closed surfaces
+* flexibility to work with surfaces with no orientation(i.e. Klein bottle)
+* works on curves/filaments -- objects of co-dimension two or higher 
+
+The closest point function can be found in a number of ways: 
+1. for surfaces like the sphere/torus it can be found analytically 
+2. parametrized surfaces it can be found by using standard numberical optimization techniques
+3. for triangulated surfaces it can be found directly or through the use of algorithms such as the "tree-based algorithms of Strain" or the "public domain closest point transfom of Mauch"
+
+The actual method itself is implemented in the following steps: 
+1. Construct a closest point representation of the surface
+2. Choose a computation domain
+3. Find the embedding of the surface PDE by replacing surface gradients with standard gradients in R3. This leads to a "simpler PDE than previous embedding methods" because of no projection matrix
+4. initialize the solution variable by extending the "intial surface data onto the computational domain using the closest point function"
+
+The following steps are alternated after the first four steps are finished: 
+1. Extend the solution off the surface to the computationl domain using the closest point function 
+2. compute the solution to the embedding PDE using standard finite differences on a Cartesian mesh in the computational domain for one time step 
+
+## The Drawbacks 
+
+The CPM is an astoudingly novel method for solving PDEs on surfaces and thus does not work well with many differential operators. The way that the closest point representation is obtained means that a lot of the fundamental calculus identities are lost. 
+
+This can be seen in the papers that the authors have come out with involving the CPM. A lot of these papers detail how to solve specific PDE problems, rather than showing the CPM as a catch-all method. 
+`
+            }, 
+    
+        }
+
+        // Get the slug from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const slug = urlParams.get('slug');
+
+        // Configure marked for math support
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            highlight: function(code, lang) {
+                if (Prism.languages[lang]) {
+                    return Prism.highlight(code, Prism.languages[lang], lang);
+                }
+                return code;
+            }
+        });
+
+        // Custom renderer for math formulas
+        const renderer = new marked.Renderer();
+        renderer.paragraph = function(text) {
+            // Handle math formulas wrapped in $$
+            if (text.includes('$$')) {
+                return text.replace(/\$\$(.*?)\$\$/g, '<div class="math-formula">$1</div>');
+            }
+            return '<p>' + text + '</p>';
+        };
+
+        marked.setOptions({ renderer: renderer });
+
+        function loadBlogPost(slug) {
+            const container = document.getElementById('blog-post-container');
+            
+            if (!slug || !blogPosts[slug]) {
+                container.innerHTML = `
+                    <div class="error">
+                        <h2>Blog Post Not Found</h2>
+                        <p>The requested blog post could not be found.</p>
+                        <a href="blog.html" class="btn btn-primary">Back to Blog</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const post = blogPosts[slug];
+            
+            // Update page title
+            document.title = `${post.title} - micah li`;
+            
+            // Convert markdown to HTML
+            const htmlContent = marked.parse(post.content);
+            
+            // Render the blog post
+            container.innerHTML = `
+                <div class="article-header">
+                    <div class="article-tags">
+                        ${post.tags.map(tag => `<span class="article-tag">${tag}</span>`).join('')}
+                    </div>
+                    <h1 class="article-title">${post.title}</h1>
+                    <div class="article-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>${post.date}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>${post.readTime}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="article-content">
+                    <div class="markdown-content">
+                        ${htmlContent}
+                    </div>
+                </div>
+
+            `;
+
+            // Highlight code blocks
+            Prism.highlightAll();
+        }
+
+        // Load the blog post when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBlogPost(slug);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>blog</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .blog-header {
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+        
+        .blog-header h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-header p {
+            font-size: 1.25rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b7280;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #2563eb;
+        }
+        
+        .blog-post-card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .blog-post-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tag {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+        }
+        
+        .post-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .post-title a {
+            color: #111827;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .post-title a:hover {
+            color: #2563eb;
+        }
+        
+        .post-meta {
+            color: #6b7280;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .post-excerpt {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fa fa-cube" aria-hidden="true"></i>
+                <a href = index.html style = "text-decoration: none"><span class="nav-title">micah li</span></a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+    <a href="index.html" class="nav-link">about//</a>
+    <a href="blog.html" class="nav-link active">blog//</a>
+</div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+    <div class="container">
+        <div style="padding: 3rem 0;">
+            
+            <div class="blog-header">
+                <h1 class = "hero-title">blog</h1>
+                <p>a place for misc. math writing, and other things</p>
+            </div>
+
+            <div id="blog-posts-container">
+                <!-- Blog posts will be loaded here -->
+            </div>
+
+        </div>
+    </div>
+
+    <script src="markdown-posts.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Load and display blog posts
+        function loadBlogPosts() {
+            const container = document.getElementById('blog-posts-container');
+            
+            // Convert blogPosts object to array and sort by date
+            const postsArray = Object.entries(blogPosts).map(([slug, post]) => ({
+                slug,
+                ...post
+            })).sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // Generate HTML for each post
+            const postsHTML = postsArray.map(post => `
+                <div class="blog-post-card">
+                    <div class="post-tags">
+                        ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <h2 class="post-title">
+                        <a href="blog-post.html?slug=${post.slug}">${post.title}</a>
+                    </h2>
+                    <div class="post-meta">
+                        <span><i class="fas fa-calendar"></i> ${post.date}</span>
+                        <span><i class="fas fa-clock"></i> ${post.readTime}</span>
+                    </div>
+                    <p class="post-excerpt">${post.excerpt}</p>
+                    <a href="blog-post.html?slug=${post.slug}" class="read-more">Read full post →</a>
+                </div>
+            `).join('');
+            
+            container.innerHTML = postsHTML;
+        }
+
+        // Load posts when page loads
+        document.addEventListener('DOMContentLoaded', loadBlogPosts);
+    </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>micah li</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fa fa-cube" aria-hidden="true"></i>
+                <a href = index.html style = "text-decoration: none"><span class="nav-title">micah li</span></a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+    <a href="index.html" class="nav-link active">about//</a>
+    <a href="blog.html" class="nav-link">blog//</a>
+</div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">micah li</h1>
+                <p class="hero-subtitle">math phd @ university of minnesota-twin cities </p>
+                <div class="badges">
+                    <span class="badge">algebra</span>
+                    <span class="badge">commutative algebra</span>
+                    <span class="badge">geometry</span>
+                    <span class="badge">cateogry theory</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="card">
+                <div class="about-intro">
+                   <div class="avatar" id="avatar">
+                        <img src="public\profile-picture.jpg" width = "150px" alt="micah" >
+                    </div>
+                    <div class="intro-text">
+                        <h2>Hi, I'm Micah!</h2>
+                        <p>I am a first year PhD student in mathematics at the University of Minnesota - Twin Cities. I got my bachelor's in mathematics at UCSD where I worked with Professor Albert Chern on problems in computer graphics and non-Euclidean geometry. I also did a directed reading with Professor Lei Ni on Lie groups. I am primarily interested in problems concerning algebraic geometry and Lie groups. My CV can be found <a href = "files/Li_Mica_CV (10).pdf">here</a>.</p>
+                        <p>To reach me: li004438 "at" umn "dot" edu</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-graduation-cap card-icon"></i>
+                    <h3>Education</h3>
+                </div>
+                <div class="card-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h4>PhD in Pure Mathematics</h4>
+                            <p class="institution">University of Minnesota - Twin Cities</p>
+                            <p class="year">2025 - Present</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Bachelor of Science in Mathematics</h4>
+                            <p class="institution">University of California - San Diego</p>
+                            <p class="year">2021-2025</p>
+                            <p class="focus">Pure Mathematics, Cum Laude</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Publications -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-award card-icon"></i>
+                    <h3>Publications</h3>
+                </div>
+                <div class="card-content">
+                    <div class="publication">
+                        <h4>Closest Point Exterior Calculus</h4>
+                        <p class="journal">SIGGRAPH Asia Posters(2023)</p>
+                        <span class="status-badge published">Published</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Blog Posts -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-book-open card-icon"></i>
+                    <h3>recent blog posts</h3>
+                    <p class="card-description">i write about math on occasion</p>
+                </div>
+                <div class="card-content">
+                    <div class="blog-posts">
+                        <div class="blog-post">
+                            <h4><a href="blog-post.html?slug=cpm">The Closest Point Method</a></h4>
+                            <p class="post-date">2023-01-15</p>
+                            <p class="post-excerpt">a new framework for computer graphics visualization</p>
+                            <a href="blog-post.html?slug=cpm" class="read-more">Read more →</a>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <a href="blog.html" class="btn btn-outline">View All Posts</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Fun Facts -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-coffee card-icon"></i>
+                    <h3>hobbies & facts</h3>
+                </div>
+                <div class="card-content">
+                    <div class="fun-facts">
+                        <div class="fact-column">
+                            <h4>Hobbies</h4>
+                            <ul>
+                                <li>Drawing, painting, sketching</li>
+                                <li>Knitting and crocheting</li>
+                                <li>Reading: A Visit from the Goon Squad</li>
+                                <li>Watching: the Mission Impossible Series</li>
+                            </ul>
+                        </div>
+                        <div class="fact-column">
+                            <h4>Fun Facts</h4>
+                            <ul>
+                                <li>If I was a Springer GTM book I would be Frank Warner's Foundations of Differentiable Manifolds and Lie Groups.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div id="contact" class="card contact-card">
+                <div class="card-content text-center">
+                    <h2>mathematical friends</h2>
+                    <p>my friends who also do math in some shape or form</p>
+                    <div class="contact-buttons">
+                        <a href = "https://www.brianton.me/fun-stuff/arithmetic-riemann-roch/" class="btn btn-outline">
+                             brian ton
+                        </a>
+                        <a href="https://pranavnreddy.github.io/posts/2025/03/counterexamples" class="btn btn-outline">
+                             pranav reddy
+                        </a>
+                        <a href="#" class="btn btn-outline">
+                            varun sreedhar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-cube"></i>
+                    <span>micah li</span>
+                </div>
+                <p>© <script>document.write(new Date().getFullYear())</script>. made with <i class="fas fa-coffee"></i> and lots of commutative diagrams.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

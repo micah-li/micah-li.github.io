@@ -608,3 +608,12 @@ html {
   background: #bfdbfe;
   color: #07bf78;
 }
+
+li {
+  list-style: none;
+}
+
+a{
+  color: green;
+}
+

@@ -1,7 +1,52 @@
-This was probably the most painful thing I have ever coded I am never doing this again. 
+# micah-li.github.io
 
-But anyways. 
+Personal website built with plain HTML, CSS, and JavaScript.
 
-This is mainly in HTML and CSS with some javascript to do the hard lifting. The blog posts right now are kinda janky and I intend to change that as soon as I figure out how to :-(.
+## Writing blog posts
 
-Please don't copy this for your own sanity.
+Blog posts live in `posts/` as Markdown files. Each post should start with front matter:
+
+```md
+---
+title: "Winter 2024 Arizona Trip"
+date: 2025-01-02
+tags: [travel, sedona, grand-canyon]
+excerpt: "Optional short summary for the blog index."
+---
+
+Write the post here.
+```
+
+After adding or editing a post, rebuild the blog:
+
+```sh
+node generate-index.js
+```
+
+That command creates:
+
+- `blog-posts.html`, the static blog index
+- `blog/<slug>.html`, one static HTML page per Markdown post
+- `posts/posts.json`, a small metadata index
+- `blog.html`, a redirect for old `blog.html?post=<slug>` links
+
+The blog generator is dependency-free, so there is no package install step.
+
+## Updating photos
+
+Photo albums live in `photos/`. Each folder becomes one album on the local photos page:
+
+```text
+photos/
+  arizona/
+    arizona-1.jpg
+    arizona-2.jpg
+```
+
+After adding, removing, or renaming photo files, rebuild the gallery:
+
+```sh
+node generate-photos.js
+```
+
+That command creates `photos.html` from the album folders.

@@ -40,49 +40,120 @@ document.addEventListener("DOMContentLoaded", () => {
   // Add scroll effect to navbar
   const navbar = document.querySelector(".navbar")
   if (navbar) {
+    let ticking = false
     window.addEventListener("scroll", () => {
-      if (window.scrollY > 50) {
-        navbar.style.background = "rgba(255, 255, 255, 0.95)"
-      } else {
-        navbar.style.background = "rgba(255, 255, 255, 0.8)"
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (window.scrollY > 50) {
+            navbar.style.background = "rgba(255, 255, 255, 0.95)"
+            navbar.style.backdropFilter = "blur(10px)"
+          } else {
+            navbar.style.background = "rgba(255, 255, 255, 0.8)"
+            navbar.style.backdropFilter = ""
+          }
+          ticking = false
+        })
+        ticking = true
       }
     })
   }
 
-  // Simple blog post routing (for demo purposes)
-  const urlParams = new URLSearchParams(window.location.search)
-  const slug = urlParams.get("slug")
+  // Local photo pile controls
+  const albumCategories = Array.from(document.querySelectorAll(".album-category"))
+  const albumPiles = Array.from(document.querySelectorAll(".album-pile"))
 
-  if (slug && window.location.pathname.includes("blog-post.html")) {
-    // In a real application, you would fetch the post data based on the slug
-    // For this demo, we're just showing the same content
-    console.log("Loading blog post:", slug)
+  if (albumCategories.length > 0 && albumPiles.length > 0) {
+    const pileStates = new Map()
+
+    const updatePile = (pile) => {
+      const photos = Array.from(pile.querySelectorAll(".loose-photo"))
+      const state = pileStates.get(pile.dataset.album) || { offset: 0 }
+      const currentPhoto = pile.querySelector("[data-current-photo]")
+
+      photos.forEach((photo, index) => {
+        const depth = (index - state.offset + photos.length) % photos.length
+        photo.style.setProperty("--stack-depth", depth)
+        photo.classList.toggle("is-top", depth === 0)
+        photo.setAttribute("aria-pressed", depth === 0 ? "true" : "false")
+      })
+
+      if (currentPhoto) {
+        currentPhoto.textContent = String(state.offset + 1)
+      }
+    }
+
+    const setActiveAlbum = (album) => {
+      albumCategories.forEach((category) => {
+        const isActive = category.dataset.albumTarget === album
+        category.classList.toggle("active", isActive)
+        category.setAttribute("aria-pressed", isActive ? "true" : "false")
+      })
+
+      albumPiles.forEach((pile) => {
+        const isActive = pile.dataset.album === album
+        pile.hidden = !isActive
+        pile.classList.toggle("active", isActive)
+
+        if (isActive) {
+          updatePile(pile)
+        }
+      })
+    }
+
+    albumPiles.forEach((pile) => {
+      pileStates.set(pile.dataset.album, { offset: 0 })
+      updatePile(pile)
+
+      pile.addEventListener("click", (event) => {
+        const photo = event.target.closest(".loose-photo")
+        if (!photo || !photo.classList.contains("is-top")) return
+
+        const photos = Array.from(pile.querySelectorAll(".loose-photo"))
+        const state = pileStates.get(pile.dataset.album)
+        photo.classList.add("is-moving")
+
+        window.setTimeout(() => {
+          state.offset = (state.offset + 1) % photos.length
+          photo.classList.remove("is-moving")
+          updatePile(pile)
+        }, 160)
+      })
+    })
+
+    albumCategories.forEach((category) => {
+      category.addEventListener("click", () => {
+        setActiveAlbum(category.dataset.albumTarget)
+      })
+    })
   }
 
   // Add fade-in animation to cards
-  const cards = document.querySelectorAll(".card, .blog-post-card")
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px",
+  const cards = document.querySelectorAll(".card")
+  if (cards.length > 0) {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px",
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = "1"
+          entry.target.style.transform = "translateY(0)"
+          observer.unobserve(entry.target)
+        }
+      })
+    }, observerOptions)
+
+    cards.forEach((card) => {
+      card.style.opacity = "0"
+      card.style.transform = "translateY(20px)"
+      card.style.transition = "opacity 0.6s ease, transform 0.6s ease"
+      observer.observe(card)
+    })
   }
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = "1"
-        entry.target.style.transform = "translateY(0)"
-      }
-    })
-  }, observerOptions)
-
-  cards.forEach((card) => {
-    card.style.opacity = "0"
-    card.style.transform = "translateY(20px)"
-    card.style.transition = "opacity 0.6s ease, transform 0.6s ease"
-    observer.observe(card)
-  })
-
-  // Add typing effect to hero title (optional enhancement)
+  // Add typing effect to hero title
   const heroTitle = document.querySelector(".hero-title")
   if (heroTitle) {
     const originalText = heroTitle.innerHTML
@@ -100,138 +171,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // Start typing effect after a short delay
     setTimeout(typeWriter, 500)
   }
-
-  // Enhanced mobile optimization
-  // Add touch-friendly interactions
-  const touchFriendlyCards = document.querySelectorAll(".card, .blog-post-card, .portfolio-item")
-
-  touchFriendlyCards.forEach((card) => {
-    // Add touch feedback
-    card.addEventListener("touchstart", function () {
-      this.style.transform = "scale(0.98)"
-    })
-
-    card.addEventListener("touchend", function () {
-      this.style.transform = ""
-    })
-  })
-
-  // Improve mobile navigation
-  const mobileNavLinks = document.querySelectorAll(".nav-link")
-  mobileNavLinks.forEach((link) => {
-    link.addEventListener("touchstart", function () {
-      this.style.backgroundColor = "#f3f4f6"
-    })
-
-    link.addEventListener("touchend", function () {
-      setTimeout(() => {
-        this.style.backgroundColor = ""
-      }, 150)
-    })
-  })
-
-  // Add swipe gesture for mobile navigation (basic implementation)
-  let touchStartX = 0
-  let touchEndX = 0
-
-  document.addEventListener("touchstart", (e) => {
-    touchStartX = e.changedTouches[0].screenX
-  })
-
-  document.addEventListener("touchend", (e) => {
-    touchEndX = e.changedTouches[0].screenX
-    handleSwipe()
-  })
-
-  function handleSwipe() {
-    const swipeThreshold = 50
-    const swipeDistance = touchEndX - touchStartX
-
-    if (Math.abs(swipeDistance) > swipeThreshold) {
-      // Basic swipe detection - could be enhanced for navigation
-      console.log(swipeDistance > 0 ? "Swiped right" : "Swiped left")
-    }
-  }
-
-  // Optimize images for mobile (lazy loading simulation)
-  const images = document.querySelectorAll(".portfolio-image")
-  const imageObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = "1"
-        imageObserver.unobserve(entry.target)
-      }
-    })
-  })
-
-  images.forEach((img) => {
-    img.style.opacity = "0.8"
-    img.style.transition = "opacity 0.3s ease"
-    imageObserver.observe(img)
-  })
-
-  // Add mobile-specific performance optimizations
-  if (window.innerWidth <= 768) {
-    // Reduce animation complexity on mobile
-    const animatedElements = document.querySelectorAll(".portfolio-item")
-    animatedElements.forEach((el, index) => {
-      el.style.animationDelay = `${index * 0.1}s`
-    })
-
-    // Optimize scroll performance
-    let ticking = false
-
-    function updateScrollEffects() {
-      // Simplified scroll effects for mobile
-      const scrolled = window.pageYOffset
-      const navbar = document.querySelector(".navbar")
-
-      if (scrolled > 50) {
-        navbar.style.background = "rgba(255, 255, 255, 0.95)"
-        navbar.style.backdropFilter = "blur(10px)"
-      } else {
-        navbar.style.background = "rgba(255, 255, 255, 0.8)"
-      }
-
-      ticking = false
-    }
-
-    window.addEventListener("scroll", () => {
-      if (!ticking) {
-        requestAnimationFrame(updateScrollEffects)
-        ticking = true
-      }
-    })
-  }
 })
-
-// Contact form handling (if you add a contact form later)
-function handleContactForm(event) {
-  event.preventDefault()
-  const formData = new FormData(event.target)
-  const data = Object.fromEntries(formData)
-
-  // Here you would typically send the data to a server
-  console.log("Contact form submitted:", data)
-  alert("Thank you for your message! I'll get back to you soon.")
-}
-
-// Utility function for smooth animations
-function animateOnScroll() {
-  const elements = document.querySelectorAll(".animate-on-scroll")
-
-  elements.forEach((element) => {
-    const elementTop = element.getBoundingClientRect().top
-    const elementVisible = 150
-
-    if (elementTop < window.innerHeight - elementVisible) {
-      element.classList.add("active")
-    }
-  })
-}
-
-// Add scroll listener for animations
-window.addEventListener("scroll", animateOnScroll)
-
-// Initialize animations on page load
-document.addEventListener("DOMContentLoaded", animateOnScroll)

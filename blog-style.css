@@ -121,6 +121,35 @@
             padding-left: 1.5rem;
         }
         
+        .markdown-content ul li {
+            list-style: disc;
+        }
+
+        .markdown-content ol li {
+            list-style: decimal;
+        }
+
+        .markdown-content li > ul,
+        .markdown-content li > ol {
+            margin: 0.5rem 0 0;
+        }
+
+        .markdown-content ul ul li {
+            list-style: circle;
+        }
+
+        .markdown-content ul ul ul li {
+            list-style: square;
+        }
+
+        .markdown-content ol ol li {
+            list-style: lower-alpha;
+        }
+
+        .markdown-content ol ol ol li {
+            list-style: lower-roman;
+        }
+
         .markdown-content li {
             margin-bottom: 0.5rem;
             color: #374151;
@@ -361,6 +390,72 @@
             margin-bottom: 1rem;
         }
 
+        .diary-entry-list {
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .diary-entry-card .post-title {
+            margin-bottom: 0.75rem;
+        }
+
+        .math-diary-content .math-inline,
+        .math-diary-content .math-display {
+            color: #111827;
+        }
+
+        .math-diary-content .math-display,
+        .math-diary-content mjx-container[display="true"] {
+            max-width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .math-diary-content .math-display {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+        }
+
+        .diary-entry-nav {
+            border-top: 1px solid #e5e7eb;
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            margin-top: 3rem;
+            padding-top: 2rem;
+        }
+
+        .diary-entry-link,
+        .diary-entry-spacer {
+            min-height: 44px;
+        }
+
+        .diary-entry-link {
+            align-items: center;
+            color: #374151;
+            display: inline-flex;
+            gap: 0.5rem;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .diary-entry-link:hover {
+            color: #07bf78;
+        }
+
+        .diary-entry-link.back {
+            justify-content: center;
+            white-space: nowrap;
+        }
+
+        .diary-entry-link.next {
+            justify-content: flex-end;
+            text-align: right;
+        }
+
         @media (max-width: 640px) {
             .blog-page {
                 padding: 2rem 0;
@@ -382,5 +477,20 @@
 
             .markdown-content pre {
                 padding: 1rem;
+            }
+
+            .diary-entry-nav {
+                grid-template-columns: 1fr;
+            }
+
+            .diary-entry-link,
+            .diary-entry-link.back,
+            .diary-entry-link.next {
+                justify-content: flex-start;
+                text-align: left;
+            }
+
+            .diary-entry-spacer {
+                display: none;
             }
         }

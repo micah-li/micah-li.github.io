@@ -20,7 +20,7 @@ Write the post here.
 After adding or editing a post, rebuild the blog:
 
 ```sh
-node generate-index.js
+node generation-tools/generate-index.js
 ```
 
 That command creates:
@@ -46,7 +46,35 @@ photos/
 After adding, removing, or renaming photo files, rebuild the gallery:
 
 ```sh
-node generate-photos.js
+node generation-tools/generate-photos.js
 ```
 
 That command creates `photos.html` from the album folders.
+
+## Writing math diary entries
+
+Math diary entries live in `math-diary/` as Markdown files. Files that start with `_`, such as `_template.md`, are ignored by the generator.
+
+```md
+---
+title: "Week of July 4, 2026"
+date: 2026-07-04
+excerpt: "A short summary of the week's mathematical work."
+---
+
+Write the entry here. Inline math like $G \curvearrowright X$ works, as do display equations:
+
+$$
+\begin{aligned}
+H^n(G; M) &\cong \operatorname{Ext}^n_{\mathbb{Z}G}(\mathbb{Z}, M).
+\end{aligned}
+$$
+```
+
+After adding or editing diary entries, rebuild the section:
+
+```sh
+node generation-tools/generate-math-diary.js
+```
+
+That command creates `math-diary.html` and one static HTML page per entry. Diary pages load MathJax's full TeX bundle for LaTeX-style math rendering.

@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const rootDir = __dirname;
+const rootDir = path.resolve(__dirname, "..");
 const postsDir = path.join(rootDir, "posts");
 const outputDir = path.join(rootDir, "blog");
 const postsIndexFile = path.join(postsDir, "posts.json");
@@ -14,6 +14,7 @@ const site = {
   title: "micah li",
   blogTitle: "blog",
   blogSubtitle: "a place for many non-math related things. looking for math? look at my homepage",
+  diaryPath: "math-diary.html",
   photosPath: "photos.html",
 };
 
@@ -235,6 +236,28 @@ function splitTableRow(line) {
     .map((cell) => cell.trim());
 }
 
+function indentationWidth(value) {
+  let width = 0;
+
+  for (const character of value) {
+    width += character === "\t" ? 4 - (width % 4) : 1;
+  }
+
+  return width;
+}
+
+function getListItem(line) {
+  const match = line.match(/^([ \t]*)([-*+]|\d+\.)(?:[ \t]+(.*)|[ \t]*)$/);
+
+  if (!match) return null;
+
+  return {
+    indent: indentationWidth(match[1]),
+    text: (match[3] || "").trim(),
+    type: /^\d+\.$/.test(match[2]) ? "ol" : "ul",
+  };
+}
+
 function isBlockStart(lines, index) {
   const line = lines[index] || "";
   const nextLine = lines[index + 1] || "";
@@ -243,15 +266,74 @@ function isBlockStart(lines, index) {
     /^```/.test(line) ||
     /^#{1,6}\s+/.test(line) ||
     /^>\s?/.test(line) ||
-    /^\s*[-*+]\s+/.test(line) ||
-    /^\s*\d+\.\s+/.test(line) ||
+    getListItem(line) ||
     /^ {0,3}([-*_])(?:\s*\1){2,}\s*$/.test(line) ||
     (line.includes("|") && isTableDivider(nextLine))
   );
 }
 
-function renderList(tagName, items, prefix) {
-  return `<${tagName}>\n${items.map((item) => `  <li>${renderInline(item, prefix)}</li>`).join("\n")}\n</${tagName}>`;
+function renderListAtIndent(lines, index, indent, type, prefix) {
+  const items = [];
+
+  while (index < lines.length) {
+    const item = getListItem(lines[index]);
+    if (!item || item.indent < indent || (item.indent === indent && item.type !== type)) break;
+
+    if (item.indent > indent) {
+      if (!items.length) break;
+
+      const nestedList = renderListAtIndent(lines, index, item.indent, item.type, prefix);
+      items[items.length - 1].children.push(nestedList.html);
+      index = nestedList.nextIndex;
+      continue;
+    }
+
+    const itemContent = item.text ? [renderInline(item.text, prefix)] : [];
+    const children = [];
+    index += 1;
+
+    while (index < lines.length) {
+      if (!lines[index].trim()) break;
+
+      const nextItem = getListItem(lines[index]);
+      if (nextItem) {
+        if (nextItem.indent > item.indent) {
+          const nestedList = renderListAtIndent(lines, index, nextItem.indent, nextItem.type, prefix);
+          children.push(nestedList.html);
+          index = nestedList.nextIndex;
+          continue;
+        }
+
+        break;
+      }
+
+      if (isBlockStart(lines, index)) break;
+
+      const continuationIndent = indentationWidth(lines[index].match(/^[ \t]*/)[0]);
+      if (continuationIndent < item.indent) break;
+
+      itemContent.push(renderInline(lines[index].trim(), prefix));
+      index += 1;
+    }
+
+    items.push({ children, content: itemContent.join(" ") });
+  }
+
+  const html = `<${type}>\n${items
+    .map((item) => {
+      const children = item.children.length ? `\n${item.children.join("\n")}` : "";
+      return `  <li>${item.content}${children}</li>`;
+    })
+    .join("\n")}\n</${type}>`;
+
+  return { html, nextIndex: index };
+}
+
+function renderList(lines, index, prefix) {
+  const item = getListItem(lines[index]);
+  if (!item) return null;
+
+  return renderListAtIndent(lines, index, item.indent, item.type, prefix);
 }
 
 function renderTable(lines, prefix) {
@@ -349,49 +431,10 @@ function markdownToHtml(markdown, usedHeadingIds = new Map(), prefix = "") {
       continue;
     }
 
-    const unorderedMatch = line.match(/^\s*[-*+]\s+(.+)$/);
-    if (unorderedMatch) {
-      const items = [];
-
-      while (index < lines.length) {
-        const itemMatch = lines[index].match(/^\s*[-*+]\s+(.+)$/);
-        if (!itemMatch) break;
-
-        let item = itemMatch[1].trim();
-        index += 1;
-
-        while (index < lines.length && lines[index].trim() && !isBlockStart(lines, index)) {
-          item += ` ${lines[index].trim()}`;
-          index += 1;
-        }
-
-        items.push(item);
-      }
-
-      blocks.push(renderList("ul", items, prefix));
-      continue;
-    }
-
-    const orderedMatch = line.match(/^\s*\d+\.\s+(.+)$/);
-    if (orderedMatch) {
-      const items = [];
-
-      while (index < lines.length) {
-        const itemMatch = lines[index].match(/^\s*\d+\.\s+(.+)$/);
-        if (!itemMatch) break;
-
-        let item = itemMatch[1].trim();
-        index += 1;
-
-        while (index < lines.length && lines[index].trim() && !isBlockStart(lines, index)) {
-          item += ` ${lines[index].trim()}`;
-          index += 1;
-        }
-
-        items.push(item);
-      }
-
-      blocks.push(renderList("ol", items, prefix));
+    const list = renderList(lines, index, prefix);
+    if (list) {
+      blocks.push(list.html);
+      index = list.nextIndex;
       continue;
     }
 
@@ -435,6 +478,7 @@ function renderNav(prefix, activePage) {
   const aboutClass = activePage === "about" ? " active" : "";
   const photosClass = activePage === "photos" ? " active" : "";
   const blogClass = activePage === "blog" ? " active" : "";
+  const diaryClass = activePage === "math-diary" ? " active" : "";
 
   return `
     <nav class="navbar">
@@ -445,6 +489,7 @@ function renderNav(prefix, activePage) {
             </div>
             <div class="nav-menu" id="nav-menu">
                 <a href="${prefix}index.html" class="nav-link${aboutClass}">about//</a>
+                <a href="${prefix}${site.diaryPath}" class="nav-link${diaryClass}">math diary//</a>
                 <a href="${prefix}${site.photosPath}" class="nav-link${photosClass}">photos//</a>
                 <a href="${prefix}blog-posts.html" class="nav-link${blogClass}">blog//</a>
             </div>

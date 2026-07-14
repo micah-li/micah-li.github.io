@@ -288,7 +288,7 @@ function getListItem(line) {
 
 function isDisplayMathStart(line) {
   const trimmed = line.trim();
-  return trimmed.startsWith("$$") || trimmed.startsWith("\\[") || /^\\begin\{[A-Za-z*]+\}/.test(trimmed);
+  return trimmed.startsWith("$$") || trimmed.startsWith("\\[") || /^\\begin\{[A-Za-z*]+\}/.test(trimmed) || /^\$\\begin\{[A-Za-z*]+\}/.test(trimmed);
 }
 
 function collectDisplayMath(lines, index) {
@@ -324,6 +324,30 @@ function collectDisplayMath(lines, index) {
     }
 
     return { content: mathLines.join("\n"), nextIndex: Math.min(index + 1, lines.length) };
+  }
+
+  const wrappedEnvironmentMatch = firstLine.match(/^\$\\begin\{([A-Za-z*]+)\}/);
+  if (wrappedEnvironmentMatch) {
+    const environment = wrappedEnvironmentMatch[1];
+    const endPattern = `\\end{${environment}}`;
+    const mathLines = [lines[index].trim().replace(/^\$/, "")];
+
+    if (firstLine.includes(endPattern) && firstLine.endsWith("$")) {
+      return { content: mathLines.join("\n").replace(/\$\s*$/, ""), nextIndex: index + 1 };
+    }
+
+    index += 1;
+    while (index < lines.length) {
+      const mathLine = lines[index].trim();
+      mathLines.push(mathLine);
+      if (mathLine.includes(endPattern)) break;
+      index += 1;
+    }
+
+    return {
+      content: mathLines.join("\n").replace(/\$\s*$/, ""),
+      nextIndex: Math.min(index + 1, lines.length),
+    };
   }
 
   const environmentMatch = firstLine.match(/^\\begin\{([A-Za-z*]+)\}/);
@@ -397,6 +421,13 @@ function renderListAtIndent(lines, index, indent, type, prefix) {
         }
 
         break;
+      }
+
+      const displayMath = collectDisplayMath(lines, index);
+      if (displayMath) {
+        itemContent.push(`<div class="math-display">\n${escapeHtml(displayMath.content)}\n</div>`);
+        index = displayMath.nextIndex;
+        continue;
       }
 
       if (isBlockStart(lines, index)) break;
@@ -621,6 +652,28 @@ function renderMathJaxConfig() {
             tex: {
                 inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],
                 displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']],
+                packages: {
+                    '[+]': [
+                        'ams',
+                        'amscd',
+                        'bbox',
+                        'boldsymbol',
+                        'braket',
+                        'cancel',
+                        'cases',
+                        'centernot',
+                        'color',
+                        'configmacros',
+                        'mathtools',
+                        'newcommand',
+                        'noerrors',
+                        'noundefined',
+                        'physics',
+                        'textmacros',
+                        'unicode',
+                        'upgreek'
+                    ]
+                },
                 processEscapes: true,
                 processEnvironments: true,
                 tags: 'ams',
@@ -643,8 +696,13 @@ function renderMathJaxConfig() {
                     Proj: '\\\\operatorname{Proj}',
                     Gal: '\\\\operatorname{Gal}',
                     Aut: '\\\\operatorname{Aut}',
+                    colim: '\\\\operatorname*{colim}',
+                    hocolim: '\\\\operatorname*{hocolim}',
+                    holim: '\\\\operatorname*{holim}',
                     im: '\\\\operatorname{im}',
-                    coker: '\\\\operatorname{coker}'
+                    coker: '\\\\operatorname{coker}',
+                    id: '\\\\operatorname{id}',
+                    op: '\\\\operatorname{op}'
                 }
             },
             options: {
